@@ -1,0 +1,114 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: QuizApp(),
+  ));
+}
+class QuizApp extends StatefulWidget {
+  const QuizApp({super.key});
+
+  @override
+  State<QuizApp> createState() => _QuizAppState();
+}
+
+class _QuizAppState extends State<QuizApp> {
+  int questionIndex = 0;
+  int score =0;
+
+  List<Map<String,Object>> questions=[
+    {
+      'question':"ques 1",
+      'answer':true,
+    },
+    {
+      'question':"ques 2",
+      'answer':true,
+    },
+    {
+      'question':"ques 3",
+      'answer':true,
+    },
+    {
+      'question':"ques 4",
+      'answer':true,
+    },
+    {
+      'question':"ques 5",
+      'answer':true,
+    },
+  ];
+  void answerQuestion(bool useranswer){
+    bool correctanswer=questions[questionIndex]['answer'] as bool;
+    setState(() {
+      if (useranswer==correctanswer)
+        {
+          score++;
+        }
+      if (questionIndex<questions.length-1){
+        questionIndex++;
+      }
+      else{
+        showresult();
+      }
+    });
+  }
+
+  void reset(){
+    setState(() {
+      questionIndex=0;
+      score=0;
+    });
+  }
+
+  void showresult(){
+    showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text("Quiz completed"),
+            content: Text("score is ${score}/${questions.length}"),
+            actions: [
+              TextButton(
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                    reset();
+                  },
+                  child: Text('reset quiz'))
+            ],
+          );
+        }
+    );
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('this is quiz'),
+        backgroundColor: Colors.orange.shade200,
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(questions[questionIndex]['question'] as String,
+          style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
+          ),SizedBox(height: 20,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                  onPressed: ()=>answerQuestion(true),
+                  child: Text('True')),
+              ElevatedButton(
+                  onPressed: ()=>answerQuestion(false),
+                  child: Text('False')),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
