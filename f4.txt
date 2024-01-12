@@ -1,0 +1,54 @@
+import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
+void main() {
+  runApp(MaterialApp(
+    home: xylo(),
+  ));
+}
+
+class xylo extends StatelessWidget {
+  const xylo({super.key});
+
+  Widget buildNoteButton(Color color, String noteFileName) {
+    return SizedBox(
+      width: double.infinity,
+      height: 50,
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          backgroundColor: color,
+        ),
+        onPressed: () {
+          // Using AudioCache to play the audio file
+          final player = AudioPlayer();
+          player.play('assets/$noteFileName');
+        },
+        child: Text(''),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('xylo'),
+      ),
+      body:Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            buildNoteButton(Colors.orange, 'note1.wav'),
+            buildNoteButton(Colors.deepPurple, 'note2.wav'),
+            buildNoteButton(Colors.blue, 'note3.wav'),
+            buildNoteButton(Colors.lightGreen, 'note4.wav'),
+            buildNoteButton(Colors.pink, 'note5.wav'),
+            buildNoteButton(Colors.yellow, 'note6.wav'),
+            buildNoteButton(Colors.red, 'note7.wav'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
